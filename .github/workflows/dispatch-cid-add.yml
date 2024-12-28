@@ -14,18 +14,15 @@ jobs:
 
       - name: Prepare and save CID file for the repo
         run: |
-          CID="${{ steps.w3up.outputs.cid }}"
-          REPO_NAME="${{ github.event.client_payload.repo }}"
-          CID_FILE="${REPO_NAME}.txt"
-
-          echo $CID > $CID_FILE
+          echo "Preparing to save new CID ${{ steps.w3up.outputs.cid }} to repo ${{ github.event.client_payload.repo }}"
+          echo "${{ steps.w3up.outputs.cid }}" > "${{ github.event.client_payload.repo }}.txt"
 
       - name: Commit and push the CID file using Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          git add "${REPO_NAME}.txt"
+          git add "${{ github.event.client_payload.repo }}.txt"
 
           git commit -m "Add CID for ${{ github.event.client_payload.repo }}"
 
