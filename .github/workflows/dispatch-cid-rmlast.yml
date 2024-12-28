@@ -25,7 +25,7 @@ jobs:
           echo "Removing last CID of repo ${{ github.event.client_payload.repo }}"
           cat "${{ github.event.client_payload.repo }}.txt.old"
 
-      - run: w3 rm "$(cat ${{ github.event.client_payload.repo }}.txt.old)"
+      - run: W3_PRINCIPAL=$W3_PRINCIPAL W3_STORE_NAME=alexjorgef w3 rm "$(cat ${{ github.event.client_payload.repo }}.txt.old)"
         env:
           W3_PRINCIPAL: ${{ secrets.W3_PRINCIPAL }}
 
