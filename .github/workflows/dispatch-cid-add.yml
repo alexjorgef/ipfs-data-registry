@@ -31,4 +31,4 @@ jobs:
 
           git commit -m "Add CID for ${{ github.event.client_payload.repo }}"
 
-          git push origin ${{ github.head_ref }}
+          git push
