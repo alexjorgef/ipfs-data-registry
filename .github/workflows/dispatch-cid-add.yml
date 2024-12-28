@@ -18,6 +18,7 @@ jobs:
       - name: Prepare and save CID file for the repo
         run: |
           echo "Preparing to save new CID ${{ github.event.client_payload.cid }} to repo ${{ github.event.client_payload.repo }}"
+          mv -f "${{ github.event.client_payload.repo }}.txt" "${{ github.event.client_payload.repo }}.txt.old"
           echo "${{ github.event.client_payload.cid }}" > "${{ github.event.client_payload.repo }}.txt"
 
       - name: Commit and push the CID file using Git
