@@ -8,19 +8,24 @@ jobs:
   cid_rmlast:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 23
+        uses: actions/setup-node@v3
         with:
-          ref: ${{ github.event.client_payload.ref }}
+          node-version: '23'
 
-      - run: npm install -g @web3-storage/w3cli
-        shell: bash
-
-      - run: w3 rm "$(cat ${{ github.event.client_payload.repo }}.txt.old)"
-        env:
-          W3_PRINCIPAL: ${{ secrets.W3_PRINCIPAL }}
-        shell: bash
+      - name: Install w3cli globally
+        run: npm install -g @web3-storage/w3cli
 
       - name: Remove the CID file for the repo
         run: |
           echo "Removing last CID of repo ${{ github.event.client_payload.repo }}"
           cat "${{ github.event.client_payload.repo }}.txt.old"
+
+      - run: w3 rm "$(cat ${{ github.event.client_payload.repo }}.txt.old)"
+        env:
+          W3_PRINCIPAL: ${{ secrets.W3_PRINCIPAL }}
+
