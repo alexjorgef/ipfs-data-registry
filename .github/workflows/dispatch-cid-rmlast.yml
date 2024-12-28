@@ -1,0 +1,33 @@
+name: Event CID Remove Last
+
+on:
+  repository_dispatch:
+    types: [cid-rmlast]
+
+jobs:
+  cid_rmlast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Remove the CID file for the repo
+        run: |
+          REPO_NAME="${{ github.event.client_payload.repo }}"
+          CID_FILE="${REPO_NAME}.txt"
+
+          if [[ -f $CID_FILE ]]; then
+            rm $CID_FILE
+          fi
+
+      - name: Commit and push the removal of the CID file using Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+          git add "${REPO_NAME}.txt"
+
+          git commit -m "Remove CID file for ${{ github.event.client_payload.repo }}"
+
+          git push origin ${{ github.head_ref }}
