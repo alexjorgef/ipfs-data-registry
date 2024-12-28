@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [cid-rmlast]
 
+permissions:
+  contents: write
+
 jobs:
   cid_rmlast:
     runs-on: ubuntu-latest

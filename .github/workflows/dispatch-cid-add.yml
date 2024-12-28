@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [cid-add]
 
+permissions:
+  contents: write
+
 jobs:
   cid_add:
     runs-on: ubuntu-latest
